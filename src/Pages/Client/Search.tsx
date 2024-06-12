@@ -17,7 +17,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
-import { users } from '../data/users'
+import { users } from '../../data/users'
 import { Link } from 'react-router-dom'
 import { FaSearch } from 'react-icons/fa'
 

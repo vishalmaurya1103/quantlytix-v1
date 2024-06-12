@@ -16,7 +16,7 @@ import {
 import { MdInfo, MdWork, MdFeedback } from 'react-icons/md'
 import { FaStar } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
-import { users } from '../data/users'
+import { users } from '../../data/users'
 
 const User: React.FC = () => {
   const { id } = useParams<{ id: string }>()

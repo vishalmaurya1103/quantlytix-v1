@@ -12,7 +12,7 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
-import { users } from '../data/users'
+import { users } from '../../data/users'
 
 const CircleIcon = ({ boxSize, color }) => {
   return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
