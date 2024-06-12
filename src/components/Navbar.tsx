@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 import {
   Box,
   Flex,
   Avatar,
   HStack,
-  Link,
+  Link as ChakraLink,
   IconButton,
   Button,
   Menu,
@@ -13,21 +13,22 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
-} from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+} from '@chakra-ui/react'
+import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 
-//const Links = ['Dashboard', 'Projects', 'Team'];
-// Define the NAV_ITEMS array using the NavItem interface
-const Links: Array<any> = [
-    { label: 'Home', href: '/' },
-    { label: 'Search', href: '/search' },
-    { label: 'Selected', href: '/selected' },
-  ]
+// Define the NAV_ITEMS array
+const Links = [
+  { label: 'Home', href: '/' },
+  { label: 'Search', href: '/search' },
+  { label: 'Selected', href: '/selected' },
+]
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
+const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
+  <ChakraLink
+    as={Link}
+    to={href}
     px={2}
     py={1}
     height={'100%'}
@@ -37,14 +38,13 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       bg: "#ffffff",
       color: '#000000'
     }}
-    color={'#ffffff'}
-    href={'#'}>
+    color={'#ffffff'}>
     {children}
-  </Link>
-);
+  </ChakraLink>
+)
 
 export default function WithAction() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function WithAction() {
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
-                <NavLink key={link}>{link.label}</NavLink>
+                <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
               ))}
             </HStack>
           </HStack>
@@ -105,14 +105,12 @@ export default function WithAction() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
               ))}
             </Stack>
           </Box>
         ) : null}
       </Box>
-
-     
     </>
-  );
+  )
 }
