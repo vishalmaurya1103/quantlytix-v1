@@ -33,6 +33,7 @@ const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
     py={1}
     height={'100%'}
     rounded={'md'}
+    
     _hover={{
       textDecoration: 'none',
       bg: "#ffffff",
@@ -62,6 +63,7 @@ export default function WithAction() {
             <HStack
               as={'nav'}
               spacing={4}
+              
               display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <NavLink key={link.label} href={link.href}>{link.label}</NavLink>

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import './App.css'
-import Home from './components/Home'
+import Home from './Pages/Home'
 import Navbar from './components/Navbar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Selected from './components/Selected'
-import Search from './components/Search'
-import SignIn from './components/SingIn'
+import Selected from './Pages/Selected'
+import Search from './Pages/Search'
+import SignIn from './Pages/SingIn'
 import Footer from './components/Footer'
 import { Box } from '@chakra-ui/react'
+import User from './Pages/User'
 
 const App: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState(false)
@@ -23,12 +24,13 @@ const App: React.FC = () => {
       ) : (
         <>
           <Navbar />
-          <Box display="flex" flexDirection="column" minHeight="100vh">
-            <Box flex="1">
+          <Box display='flex' flexDirection='column' minHeight='100vh'>
+            <Box flex='1'>
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/search' element={<Search />} />
                 <Route path='/selected' element={<Selected />} />
+                <Route path='/user/:id' element={<User />} />
               </Routes>
             </Box>
             <Footer />
