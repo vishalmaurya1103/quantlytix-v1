@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 import {
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Icon,
   Box,
   Stack,
   Text,
@@ -10,79 +14,83 @@ import {
   TableContainer,
   Avatar,
   Flex,
-} from '@chakra-ui/react'
-import { StarIcon } from '@chakra-ui/icons'
+} from '@chakra-ui/react';
+import { FaSearch } from 'react-icons/fa';
+import { StarIcon } from '@chakra-ui/icons';
+import { users } from '../data/users';
 
-interface CircleIconProps {
-  boxSize: number | string
-  color: string
-}
-
-const CircleIcon: React.FC<CircleIconProps> = ({ boxSize, color }) => {
-  return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
-}
+const CircleIcon = ({ boxSize, color }) => {
+  return <Box width={boxSize} height={boxSize} borderRadius="full" backgroundColor={color} />;
+};
 
 const Selected: React.FC = () => {
-  const [isStarred, setIsStarred] = useState(false)
+  const [client, setClient] = useState(users);
 
-  const handleStarClick = () => {
-    setIsStarred(!isStarred)
-  }
+  const handleStarClick = (id) => {
+    const updatedClient = client.map((user) => {
+      if (user.companyID === id) {
+        return { ...user, isBookmark: !user.isBookmark };
+      }
+      return user;
+    });
+    setClient(updatedClient);
+  };
 
   return (
-    <Box p={4} position='absolute' top={20} left={20} right={20}>
+    <Box p={4} position="absolute" top={20} left={20} right={20}>
       <Stack spacing={4}>
         <TableContainer>
-          <Table variant='simple'>
+          <Table variant="simple">
             <Tbody>
-              {[...Array(5)].map((_, index) => (
-                <Tr key={index}>
-                  <Td>
-                    <Avatar size='md' name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
-                  </Td>
-                  <Td>
-                    <Text fontSize='lg'>Senior Software Engineer/Developer</Text>
-                    <Text fontSize='xs'>Axiom Corp : 1 day ago</Text>
-                  </Td>
-                  <Td>
-                    <Text fontSize='lg'>Full Time</Text>
-                    <Text fontSize='xs'>in London, UK</Text>
-                  </Td>
-                  <Td>
-                    <Text fontSize='lg'>$50/hr</Text>
-                  </Td>
-                  <Td>
-                    <Flex align='center'>
-                      <CircleIcon boxSize={4} color={index % 2 === 0 ? 'red.500' : '#07acf2'} />
-                      <Box
-                        backgroundColor={index % 2 === 0 ? 'red.500' : '#07acf2'}
-                        borderRadius='full'
-                        p={1}
-                        ml={2}
-                      >
-                        <Text fontSize='md' color='white'>
-                          Software Development
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    <StarIcon
-                      cursor='pointer'
-                      color={isStarred ? 'orange.500' : 'gray.300'}
-                      fill={isStarred ? 'orange.500' : 'transparent'}
-                      onClick={handleStarClick}
-                      _hover={{ stroke: 'orange.500', strokeWidth: '2px' }}
-                    />
-                  </Td>
-                </Tr>
-              ))}
+              {client &&
+                client.map((item) => (
+                  <Tr key={item.companyID}>
+                    <Td>
+                      <Avatar size="md" name="Company Logo" src={item.companyImgUrl} />
+                    </Td>
+                    <Td>
+                      <Text fontSize="lg">{item.companyRequirements}</Text>
+                      <Text fontSize="xs">
+                        {item.companyName}, {item.time}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Text fontSize="lg">{item.jobTime}</Text>
+                      <Text fontSize="xs">
+                        {item.city}, {item.country}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Text fontSize="lg">${item.workRate}/hr</Text>
+                    </Td>
+                    <Td>
+                      <Flex align="center">
+                        <CircleIcon boxSize={4} color="red.500" />
+                        <Box backgroundColor="red.500" borderRadius="full" p={1} ml={2}>
+                          <Text fontSize="md" color="white">
+                            {item.department}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </Td>
+                    <Td>
+                      <StarIcon
+                        cursor="pointer"
+                        color={item.isBookmark ? 'orange.500' : 'gray.300'}
+                        fill={item.isBookmark ? 'orange.500' : 'transparent'}
+                        stroke={item.isBookmark ? 'orange.500' : 'gray.300'}
+                        onClick={() => handleStarClick(item.companyID)}
+                        _hover={{ stroke: 'orange.500', strokeWidth: '2px' }}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
             </Tbody>
           </Table>
         </TableContainer>
       </Stack>
     </Box>
-  )
-}
+  );
+};
 
-export default Selected
+export default Selected;
