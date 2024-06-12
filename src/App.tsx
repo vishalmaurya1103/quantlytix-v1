@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Home from './components/Home';
+import Navbar from './components/Navbar';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Selected from './components/Selected';
+import Search from './components/Search';
+import SignIn from './components/SingIn';
+import Footer from './components/Footer';
+import { Box, calc } from '@chakra-ui/react';
 
-function App() {
+const App: React.FC = () => {
+  const [isSignedIn, setIsSignedIn] = useState(true);
+
+  const handleSignIn = () => {
+    setIsSignedIn(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      {!isSignedIn ? (
+        <SignIn />
+      ) : (
+        <>
+          <Navbar />
+          <Box height={550}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/selected" element={<Selected />} />
+          </Routes>
+          </Box>
+         
+          <Footer></Footer>
+        </>
+      )}
+    </BrowserRouter>
   );
 }
 
