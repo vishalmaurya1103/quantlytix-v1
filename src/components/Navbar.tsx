@@ -15,10 +15,10 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { userRole } from '../Utils/const';
 
-const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
+const NavLink = ({ children, href, isActive }: { children: ReactNode, href: string, isActive: boolean }) => (
   <ChakraLink
     as={Link}
     to={href}
@@ -26,13 +26,17 @@ const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
     py={1}
     height={'100%'}
     rounded={'md'}
-
     _hover={{
       textDecoration: 'none',
       bg: "#ffffff",
-      color: '#000000'
+      color: '#000000',
+      zIndex: 1,
     }}
-    color={'#ffffff'}>
+    color={isActive ? '#000000' : '#ffffff'}
+    bg={isActive ? '#ffffff' : 'transparent'}
+    fontSize={isActive ? 'lg' : 'md'}
+    zIndex={isActive ? 2 : 0}
+  >
     {children}
   </ChakraLink>
 )
@@ -40,6 +44,7 @@ const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
 export default function WithAction({ isLoggedIn }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [links, setLinks] = useState(Array<any>)
+  const location = useLocation();
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
@@ -66,7 +71,7 @@ export default function WithAction({ isLoggedIn }) {
 
   return (
     <>
-      <Box bg={"#000000"} px={4} >
+      <Box bg={"#000000"} px={4}>
         <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -80,10 +85,11 @@ export default function WithAction({ isLoggedIn }) {
             <HStack
               as={'nav'}
               spacing={4}
-
               display={{ base: 'none', md: 'flex' }}>
               {links.map((link) => (
-                <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
+                <NavLink key={link.label} href={link.href} isActive={location.pathname === link.href}>
+                  {link.label}
+                </NavLink>
               ))}
             </HStack>
           </HStack>
@@ -121,7 +127,9 @@ export default function WithAction({ isLoggedIn }) {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {links.map((link) => (
-                <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
+                <NavLink key={link.label} href={link.href} isActive={location.pathname === link.href}>
+                  {link.label}
+                </NavLink>
               ))}
             </Stack>
           </Box>
