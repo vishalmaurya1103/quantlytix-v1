@@ -77,12 +77,12 @@ const Search: React.FC = () => {
                 client.map((item) => (
                   <Tr key={item.userID}>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/client/user/${item.userID}`}>
                         <Avatar size='md' name='Company Logo' src={item.userImgUrl} />
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/client/user/${item.userID}`}>
                         <Text fontSize='lg'>{item.userDesignationn}</Text>
                         <Text fontSize='xs'>
                           {item.companyName}, {item.time}
@@ -90,7 +90,7 @@ const Search: React.FC = () => {
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/client/user/${item.userID}`}>
                         <Text fontSize='lg'>{item.jobTime}</Text>
                         <Text fontSize='xs'>
                           {item.city}, {item.country}
@@ -98,12 +98,12 @@ const Search: React.FC = () => {
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/client/user/${item.userID}`}>
                         <Text fontSize='lg'>${item.workRate}/hr</Text>
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/client/user/${item.userID}`}>
                         <Flex align='center'>
                           <CircleIcon boxSize={4} color='red.500' />
                           <Box backgroundColor='red.500' borderRadius='full' p={1} ml={2}>

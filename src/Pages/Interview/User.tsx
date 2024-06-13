@@ -18,7 +18,7 @@ import { FaStar } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { users } from '../../data/users'
 
-const User: React.FC = () => {
+const InterviwerUser: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const user = users.find((user) => user.userID === id)
 
@@ -143,4 +143,4 @@ const User: React.FC = () => {
   )
 }
 
-export default User
+export default InterviwerUser

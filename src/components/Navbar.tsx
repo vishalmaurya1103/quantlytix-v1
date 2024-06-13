@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import {
   Box,
   Flex,
@@ -17,15 +17,8 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
-
-// Define the NAV_ITEMS array
-const Links = [
-  { label: 'Home', href: '/' },
-  { label: 'Search', href: '/search' },
-  { label: 'Selected', href: '/selected' },
-]
-
-
+import { link } from 'fs';
+import { userRole } from '../Utils/const';
 
 const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
   <ChakraLink
@@ -35,7 +28,7 @@ const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
     py={1}
     height={'100%'}
     rounded={'md'}
-    
+
     _hover={{
       textDecoration: 'none',
       bg: "#ffffff",
@@ -46,8 +39,26 @@ const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
   </ChakraLink>
 )
 
-export default function WithAction() {
+export default function WithAction({ isLoggedIn }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [links, setLinks] = useState(Array<any>)
+
+  useEffect(() => {
+    const role = localStorage.getItem("userRole");
+    if (role === userRole.client) {
+      setLinks([
+        { label: 'Home', href: '/' },
+        { label: 'Search', href: '/client/search' },
+        { label: 'Selected', href: '/client/selected' },
+      ])
+    }
+    else if (role === userRole.interviwer) {
+      setLinks([
+        { label: 'Home', href: '/' },
+        { label: 'Search', href: '/interviwer/search' },
+      ])
+    }
+  }, [])
 
   return (
     <>
@@ -65,9 +76,9 @@ export default function WithAction() {
             <HStack
               as={'nav'}
               spacing={4}
-              
+
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
+              {links.map((link) => (
                 <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
               ))}
             </HStack>
@@ -96,10 +107,7 @@ export default function WithAction() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
@@ -108,7 +116,7 @@ export default function WithAction() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
+              {links.map((link) => (
                 <NavLink key={link.label} href={link.href}>{link.label}</NavLink>
               ))}
             </Stack>

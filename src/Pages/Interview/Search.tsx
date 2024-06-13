@@ -25,7 +25,7 @@ const CircleIcon = ({ boxSize, color }) => {
   return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
 }
 
-const Search: React.FC = () => {
+const InterviwerSearch: React.FC = () => {
   const [client, setClient] = useState(users)
 
   const handleStarClick = (id, event) => {
@@ -134,4 +134,4 @@ const Search: React.FC = () => {
   )
 }
 
-export default Search
+export default InterviwerSearch

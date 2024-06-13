@@ -8,6 +8,7 @@ import {
   Input,
   Stack,
   Image,
+  Select,
 } from '@chakra-ui/react'
 import signInImage from '../images/image.png'
 
@@ -16,6 +17,9 @@ interface SignInProps {
 }
 
 const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
+  const handleRoleChange =(event)=>{
+    localStorage.setItem("userRole",event);
+  }
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
@@ -29,6 +33,15 @@ const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
             <FormLabel>Password</FormLabel>
             <Input type="password" />
           </FormControl>
+          <FormControl id="password">
+          <FormLabel>User role</FormLabel>
+            <Select onChange={(e) => handleRoleChange(e.target.value)} placeholder='Select role'>
+              <option selected value='Client'>Client</option>
+              <option value='Interviwer'>Interviwer</option>
+              <option value='Admin'>Admin</option>
+            </Select>
+          </FormControl>
+
           <Stack spacing={6}>
             <Button colorScheme={'blue'} variant={'solid'} onClick={onSignIn}>
               Sign in
