@@ -11,13 +11,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
-import { link } from 'fs';
 import { userRole } from '../Utils/const';
 
 const NavLink = ({ children, href }: { children: ReactNode, href: string }) => (
@@ -55,7 +53,13 @@ export default function WithAction({ isLoggedIn }) {
     else if (role === userRole.interviwer) {
       setLinks([
         { label: 'Home', href: '/' },
-        { label: 'Search', href: '/interviwer/search' },
+        { label: 'Interviews', href: '/interviwer/search' },
+      ])
+    }
+    else if (role === userRole.admin) {
+      setLinks([
+        { label: 'Home', href: '/' },
+        { label: 'Users', href: '/admin/addusers' },
       ])
     }
   }, [])

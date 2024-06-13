@@ -17,26 +17,30 @@ interface SignInProps {
 }
 
 const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
-  const handleRoleChange =(event)=>{
-    localStorage.setItem("userRole",event);
+  const handleRoleChange = (event) => {
+    localStorage.setItem('userRole', event)
   }
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
           <Heading fontSize={'2xl'}>Sign in to your account</Heading>
-          <FormControl id="email">
+          <FormControl id='email'>
             <FormLabel>Email address</FormLabel>
-            <Input type="email" />
+            <Input type='email' />
           </FormControl>
-          <FormControl id="password">
+          <FormControl id='password'>
             <FormLabel>Password</FormLabel>
-            <Input type="password" />
+            <Input type='password' />
           </FormControl>
-          <FormControl id="password">
-          <FormLabel>User role</FormLabel>
-            <Select onChange={(e) => handleRoleChange(e.target.value)} placeholder='Select role'>
-              <option selected value='Client'>Client</option>
+          <FormControl id='password'>
+            <FormLabel>User role</FormLabel>
+            <Select
+              onChange={(e) => handleRoleChange(e.target.value)}
+              defaultValue='Client'
+              placeholder='Select role'
+            >
+              <option value='Client'>Client</option>
               <option value='Interviwer'>Interviwer</option>
               <option value='Admin'>Admin</option>
             </Select>
@@ -50,11 +54,7 @@ const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
         </Stack>
       </Flex>
       <Flex flex={1}>
-        <Image
-          alt={'Login Image'}
-          objectFit={'cover'}
-          src={signInImage}
-        />
+        <Image alt={'Login Image'} objectFit={'cover'} src={signInImage} />
       </Flex>
     </Stack>
   )
