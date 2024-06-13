@@ -10,16 +10,11 @@ import {
   TableContainer,
   Avatar,
   Flex,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Icon,
-  Select,
+  Button,
 } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
 import { users } from '../../data/users'
 import { Link } from 'react-router-dom'
-import { FaSearch } from 'react-icons/fa'
 
 const CircleIcon = ({ boxSize, color }) => {
   return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
@@ -29,7 +24,7 @@ const InterviwerSearch: React.FC = () => {
   const [client, setClient] = useState(users)
 
   const handleStarClick = (id, event) => {
-    event.stopPropagation();
+    event.stopPropagation()
     const updatedClient = client.map((user) => {
       if (user.userID === id) {
         return { ...user, isBookmark: !user.isBookmark }
@@ -42,34 +37,6 @@ const InterviwerSearch: React.FC = () => {
   return (
     <Box p={4} position='absolute' top={20} left={20} right={20}>
       <Stack spacing={4}>
-        <InputGroup>
-          <InputLeftElement pointerEvents='none'>
-            <Icon as={FaSearch} color='gray.300' />
-          </InputLeftElement>
-          <Input type='text' placeholder='Profile Name' />
-        </InputGroup>
-        <Flex>
-          <Select placeholder='Location' ml='4'>
-            <option value='option1'>US</option>
-            <option value='option2'>UK</option>
-            <option value='option3'>India</option>
-          </Select>
-          <Select placeholder='Experience' ml='4'>
-            <option value='option1'>1 Year</option>
-            <option value='option2'>2 Year</option>
-            <option value='option3'>3 Year</option>
-          </Select>
-          <Select placeholder='Role' ml='4'>
-            <option value='option1'>Software Engineer</option>
-            <option value='option2'>Marketing</option>
-            <option value='option3'>UI/UX</option>
-          </Select>
-          <Select placeholder='Category' ml='4'>
-            <option value='option1'>IT</option>
-            <option value='option2'>Markating</option>
-            <option value='option3'>Bank</option>
-          </Select>
-        </Flex>
         <TableContainer>
           <Table variant='simple'>
             <Tbody>
@@ -77,12 +44,12 @@ const InterviwerSearch: React.FC = () => {
                 client.map((item) => (
                   <Tr key={item.userID}>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/interviwer/user/${item.userID}`}>
                         <Avatar size='md' name='Company Logo' src={item.userImgUrl} />
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/interviwer/user/${item.userID}`}>
                         <Text fontSize='lg'>{item.userDesignationn}</Text>
                         <Text fontSize='xs'>
                           {item.companyName}, {item.time}
@@ -90,7 +57,7 @@ const InterviwerSearch: React.FC = () => {
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/interviwer/user/${item.userID}`}>
                         <Text fontSize='lg'>{item.jobTime}</Text>
                         <Text fontSize='xs'>
                           {item.city}, {item.country}
@@ -98,12 +65,12 @@ const InterviwerSearch: React.FC = () => {
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/interviwer/user/${item.userID}`}>
                         <Text fontSize='lg'>${item.workRate}/hr</Text>
                       </Link>
                     </Td>
                     <Td>
-                      <Link to={`/user/${item.userID}`}>
+                      <Link to={`/interviwer/user/${item.userID}`}>
                         <Flex align='center'>
                           <CircleIcon boxSize={4} color='red.500' />
                           <Box backgroundColor='red.500' borderRadius='full' p={1} ml={2}>
@@ -129,6 +96,13 @@ const InterviwerSearch: React.FC = () => {
             </Tbody>
           </Table>
         </TableContainer>
+        <Link to={'/interviwer/user/crateuser'}>
+          <Box display='flex' justifyContent='end'>
+            <Button colorScheme='teal' size='md'>
+              New Interviwer
+            </Button>
+          </Box>
+        </Link>
       </Stack>
     </Box>
   )

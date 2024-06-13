@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   Box,
   Flex,
@@ -12,40 +12,73 @@ import {
   Tabs,
   Stack,
   Icon,
+  Input
 } from '@chakra-ui/react'
 import { MdInfo, MdWork, MdFeedback } from 'react-icons/md'
 import { FaStar } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
-import { users } from '../../data/users'
 
-const InterviwerUser: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const user = users.find((user) => user.userID === id)
+const CreateUser: React.FC = () => {
+  const [image, setImage] = useState('');
 
-  if (!user) {
-    return <div>User not found</div>
-  }
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target) {
+          setImage(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+
   return (
     <Box p={4} position='absolute' top={20} left={20} right={20}>
       <Flex alignItems='stretch' flexDirection='row'>
-        <Box width='20%'>
-          <Image
-            alt={'User Image'}
-            src={user.userImgUrl}
-            width='100%'
-            height='auto'
-            borderRadius='md'
-          />
+        <Box width='20%' height='200px'>
+          {image ? (
+            <Image
+              alt={'User Image'}
+              src={image}
+              width='100%'
+              height='100%'
+              borderRadius='md'
+              objectFit='cover'
+            />
+          ) : (
+            <Box
+              as='label'
+              htmlFor='upload-image'
+              cursor='pointer'
+              border='1px solid'
+              borderColor='gray.200'
+              borderRadius='md'
+              p={2}
+              width='100%'
+              height='100%'
+              textAlign='center'
+              display='flex'
+              alignItems='center'
+              justifyContent='center'
+            >
+              Upload Image
+              <Input
+                type='file'
+                accept='image/*'
+                onChange={handleImageChange}
+                display='none'
+                id='upload-image'
+              />
+            </Box>
+          )}
         </Box>
         <Divider orientation='vertical' mx={4} />
         <Box pl={4} width='80%'>
-          <Flex flexDirection='column' h='100%'>
-            <Text fontSize='5xl' fontWeight='bold'>
-              {user.userName}
-            </Text>
-            <Text fontSize='2xl'>{user.userDesignationn}</Text>
-            <Text fontSize='1xl'>{user.email}</Text>
-          </Flex>
+          <Stack spacing={3}>
+            <Input placeholder='Full Name' size='md' />
+            <Input placeholder='Designation' size='md' />
+            <Input type='email' placeholder='Enter Email' size='md' />
+          </Stack>
         </Box>
       </Flex>
       <Divider my={4} />
@@ -143,4 +176,4 @@ const InterviwerUser: React.FC = () => {
   )
 }
 
-export default InterviwerUser
+export default CreateUser;
