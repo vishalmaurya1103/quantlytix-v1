@@ -1,9 +1,5 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Icon,
   Box,
   Stack,
   Text,
@@ -14,22 +10,28 @@ import {
   TableContainer,
   Avatar,
   Flex,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Icon,
+  Select,
 } from '@chakra-ui/react'
-import { FaSearch } from 'react-icons/fa'
 import { StarIcon } from '@chakra-ui/icons'
-import { users } from '../data/users'
-import { Select } from '@chakra-ui/react'
+import { users } from '../../data/users'
+import { Link } from 'react-router-dom'
+import { FaSearch } from 'react-icons/fa'
 
 const CircleIcon = ({ boxSize, color }) => {
   return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
 }
 
-const Search: React.FC = () => {
+const InterviwerSearch: React.FC = () => {
   const [client, setClient] = useState(users)
 
-  const handleStarClick = (id) => {
+  const handleStarClick = (id, event) => {
+    event.stopPropagation();
     const updatedClient = client.map((user) => {
-      if (user.companyID === id) {
+      if (user.userID === id) {
         return { ...user, isBookmark: !user.isBookmark }
       }
       return user
@@ -73,34 +75,44 @@ const Search: React.FC = () => {
             <Tbody>
               {client &&
                 client.map((item) => (
-                  <Tr key={item.companyID}>
+                  <Tr key={item.userID}>
                     <Td>
-                      <Avatar size='md' name='Company Logo' src={item.companyImgUrl} />
+                      <Link to={`/user/${item.userID}`}>
+                        <Avatar size='md' name='Company Logo' src={item.userImgUrl} />
+                      </Link>
                     </Td>
                     <Td>
-                      <Text fontSize='lg'>{item.companyRequirements}</Text>
-                      <Text fontSize='xs'>
-                        {item.companyName}, {item.time}
-                      </Text>
+                      <Link to={`/user/${item.userID}`}>
+                        <Text fontSize='lg'>{item.userDesignationn}</Text>
+                        <Text fontSize='xs'>
+                          {item.companyName}, {item.time}
+                        </Text>
+                      </Link>
                     </Td>
                     <Td>
-                      <Text fontSize='lg'>{item.jobTime}</Text>
-                      <Text fontSize='xs'>
-                        {item.city}, {item.country}
-                      </Text>
+                      <Link to={`/user/${item.userID}`}>
+                        <Text fontSize='lg'>{item.jobTime}</Text>
+                        <Text fontSize='xs'>
+                          {item.city}, {item.country}
+                        </Text>
+                      </Link>
                     </Td>
                     <Td>
-                      <Text fontSize='lg'>${item.workRate}/hr</Text>
+                      <Link to={`/user/${item.userID}`}>
+                        <Text fontSize='lg'>${item.workRate}/hr</Text>
+                      </Link>
                     </Td>
                     <Td>
-                      <Flex align='center'>
-                        <CircleIcon boxSize={4} color='red.500' />
-                        <Box backgroundColor='red.500' borderRadius='full' p={1} ml={2}>
-                          <Text fontSize='md' color='white'>
-                            {item.department}
-                          </Text>
-                        </Box>
-                      </Flex>
+                      <Link to={`/user/${item.userID}`}>
+                        <Flex align='center'>
+                          <CircleIcon boxSize={4} color='red.500' />
+                          <Box backgroundColor='red.500' borderRadius='full' p={1} ml={2}>
+                            <Text fontSize='md' color='white'>
+                              {item.department}
+                            </Text>
+                          </Box>
+                        </Flex>
+                      </Link>
                     </Td>
                     <Td>
                       <StarIcon
@@ -108,7 +120,7 @@ const Search: React.FC = () => {
                         color={item.isBookmark ? 'orange.500' : 'gray.300'}
                         fill={item.isBookmark ? 'orange.500' : 'transparent'}
                         stroke={item.isBookmark ? 'orange.500' : 'gray.300'}
-                        onClick={() => handleStarClick(item.companyID)}
+                        onClick={(event) => handleStarClick(item.userID, event)}
                         _hover={{ stroke: 'orange.500', strokeWidth: '2px' }}
                       />
                     </Td>
@@ -122,4 +134,4 @@ const Search: React.FC = () => {
   )
 }
 
-export default Search
+export default InterviwerSearch
