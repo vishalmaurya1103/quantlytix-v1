@@ -15,8 +15,10 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { userRole } from '../Utils/const';
+import { clearLocalStorage, getUserRole } from '../Utils/Utils';
+import { useAuth } from '../Hooks/useAuth';
 
 const NavLink = ({ children, href, isActive }: { children: ReactNode, href: string, isActive: boolean }) => (
   <ChakraLink
@@ -41,13 +43,15 @@ const NavLink = ({ children, href, isActive }: { children: ReactNode, href: stri
   </ChakraLink>
 )
 
-export default function WithAction({ isLoggedIn }) {
+export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [links, setLinks] = useState(Array<any>)
+  const { logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const role = localStorage.getItem("userRole");
+    const role = getUserRole();
     if (role === userRole.client) {
       setLinks([
         { label: 'Home', href: '/' },
@@ -68,6 +72,12 @@ export default function WithAction({ isLoggedIn }) {
       ])
     }
   }, [])
+
+  const Logout = () => {
+    logout()
+    navigate('signin')
+    clearLocalStorage();
+  }
 
   return (
     <>
@@ -117,7 +127,7 @@ export default function WithAction({ isLoggedIn }) {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Logout</MenuItem>
+                <MenuItem onClick={Logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
