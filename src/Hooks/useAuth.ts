@@ -9,7 +9,6 @@ export const useAuth = () => {
   const { getItem } = useLocalStorage();
 
   useEffect(() => {
-    debugger
     const user = getItem("user");
     if (user) {
       addUser(JSON.parse(user));

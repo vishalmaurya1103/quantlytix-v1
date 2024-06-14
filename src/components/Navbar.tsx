@@ -75,7 +75,7 @@ export default function WithAction() {
 
   const Logout = () => {
     logout()
-    navigate('signin')
+    navigate('login')
     clearLocalStorage();
   }
 

@@ -8,6 +8,7 @@ export interface ISignUpDetails {
 export interface ILoginDetails {
     email: string;
     password: string;
-    role : string,
+    role: string,
     authToken?: string;
+    isAuthenticated?: boolean
 }

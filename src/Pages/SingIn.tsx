@@ -30,7 +30,8 @@ const SignIn: React.FC = () => {
       password: user.password,
       email: user.email,
       role :user.role,
-      authToken: "token"
+      authToken: "token",
+      isAuthenticated : true
     });
     navigate('/home');
   };

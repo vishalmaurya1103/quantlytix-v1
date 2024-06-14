@@ -5,10 +5,13 @@ import { ILoginDetails } from "../Types/AuthType";
 
 export const useUser = () => {
   const { user, setUser } = useContext(AuthContext);
+
   const { setItem } = useLocalStorage();
 
   const addUser = (user: ILoginDetails) => {
     debugger
+
+    // setUser(user);
     setUser(user);
     setItem("user", JSON.stringify(user));
   };
