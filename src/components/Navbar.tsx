@@ -13,12 +13,16 @@ import {
   MenuItem,
   useDisclosure,
   Stack,
+  Image,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { userRole } from '../Utils/const';
+import { userRole } from '../Utils/Const';
 import { clearLocalStorage, getUserRole } from '../Utils/Utils';
-import { useAuth } from '../Hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { logout } from '../Redux/authSlice';
+import logo  from '../Images/logo.png';
 
 const NavLink = ({ children, href, isActive }: { children: ReactNode, href: string, isActive: boolean }) => (
   <ChakraLink
@@ -28,15 +32,18 @@ const NavLink = ({ children, href, isActive }: { children: ReactNode, href: stri
     py={1}
     height={'100%'}
     rounded={'md'}
+    display={'flex'}
+    alignItems={'center'}
+    borderRadius={0}
     _hover={{
       textDecoration: 'none',
-      bg: "#ffffff",
+      bg: "#808000",
       color: '#000000',
       zIndex: 1,
     }}
-    color={isActive ? '#000000' : '#ffffff'}
-    bg={isActive ? '#ffffff' : 'transparent'}
-    fontSize={isActive ? 'lg' : 'md'}
+    color={isActive ? '#000000' : '##808000#808000'}
+    bg={isActive ? '#808000' : 'transparent'}
+    fontSize={'lg'}
     zIndex={isActive ? 2 : 0}
   >
     {children}
@@ -46,9 +53,9 @@ const NavLink = ({ children, href, isActive }: { children: ReactNode, href: stri
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [links, setLinks] = useState(Array<any>)
-  const { logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const role = getUserRole();
@@ -68,21 +75,20 @@ export default function WithAction() {
     else if (role === userRole.admin) {
       setLinks([
         { label: 'Home', href: '/' },
-        { label: 'Users', href: '/admin/addusers' },
+        { label: 'Users', href: '/admin/user' },
       ])
     }
   }, [])
 
   const Logout = () => {
-    logout()
-    navigate('login')
+    dispatch(logout());
     clearLocalStorage();
+    navigate('login')
   }
 
   return (
-    <>
-      <Box bg={"#000000"} px={4}>
-        <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
+    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Flex  h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -90,11 +96,17 @@ export default function WithAction() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box color={'#ffffff'}>QUANTLYTIX</Box>
+          <HStack h={16} spacing={12} alignItems={'center'}>
+            <Box color={'#ffffff'}>
+              <ChakraLink to={'/home'} as={Link} >
+              <Image width={'150px'}  src={logo} />
+              </ChakraLink>
+            </Box>
             <HStack
               as={'nav'}
               spacing={4}
+              h={20}
+              alignItems={'center'}
               display={{ base: 'none', md: 'flex' }}>
               {links.map((link) => (
                 <NavLink key={link.label} href={link.href} isActive={location.pathname === link.href}>
@@ -104,14 +116,6 @@ export default function WithAction() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              variant={'solid'}
-              colorScheme={'teal'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}>
-              Action
-            </Button>
             <Menu>
               <MenuButton
                 as={Button}
@@ -135,7 +139,7 @@ export default function WithAction() {
 
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
+            <Stack as={'nav'} spacing={6}>
               {links.map((link) => (
                 <NavLink key={link.label} href={link.href} isActive={location.pathname === link.href}>
                   {link.label}
@@ -144,7 +148,6 @@ export default function WithAction() {
             </Stack>
           </Box>
         ) : null}
-      </Box>
-    </>
+      </Box >
   )
 }

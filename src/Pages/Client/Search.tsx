@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Stack,
@@ -20,23 +20,37 @@ import { StarIcon } from '@chakra-ui/icons'
 import { users } from '../../data/users'
 import { Link } from 'react-router-dom'
 import { FaSearch } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchClients } from '../../Redux/clientSlice'
+import { AppDispatch, RootState } from '../../App/Store'
 
 const CircleIcon = ({ boxSize, color }) => {
   return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
 }
 
 const Search: React.FC = () => {
-  const [client, setClient] = useState(users)
+ // const [client, setClient] = useState(users)
+  const dispatch = useDispatch<AppDispatch>();
+
+  const clients = useSelector((state: RootState) => state.client.clients);
+  const status = useSelector((state: RootState) => state.client.status);
+  const error = useSelector((state: RootState) => state.client.error);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchClients());
+    }
+  }, [status, dispatch]);
 
   const handleStarClick = (id, event) => {
     event.stopPropagation();
-    const updatedClient = client.map((user) => {
+    const updatedClient = clients.map((user) => {
       if (user.userID === id) {
         return { ...user, isBookmark: !user.isBookmark }
       }
       return user
     })
-    setClient(updatedClient)
+    //setClient(updatedClient)
   }
 
   return (
@@ -73,8 +87,8 @@ const Search: React.FC = () => {
         <TableContainer>
           <Table variant='simple'>
             <Tbody>
-              {client &&
-                client.map((item) => (
+              {clients.length &&
+                clients.map((item) => (
                   <Tr key={item.userID}>
                     <Td>
                       <Link to={`/client/user/${item.userID}`}>

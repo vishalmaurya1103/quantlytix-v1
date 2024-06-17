@@ -3,3 +3,5 @@ export const userRole = {
     admin: "Admin",
     interviwer: "Interviwer"
 }
+
+export const apiBaseAddress = 'http://localhost:9000' + '/api';

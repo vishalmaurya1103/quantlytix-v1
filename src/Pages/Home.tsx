@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack, Text, Image, Flex, Card, CardBody, Heading, SimpleGrid } from '@chakra-ui/react'
-import Image1 from '../images/image1.png'
+import Image1 from './../Images/image1.png'
 
 const Home: React.FC = () => {
   return (

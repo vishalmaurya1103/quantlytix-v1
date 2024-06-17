@@ -10,29 +10,27 @@ import {
   Image,
   Select,
 } from '@chakra-ui/react'
-import signInImage from '../images/image.png'
+import signInImage from '../Images/image.png'
 import { ILoginDetails } from './../Types/AuthType';
-import { userRole } from '../Utils/const';
+import { userRole } from '../Utils/Const';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Context/AuthContext';
-import { useAuth } from '../Hooks/useAuth';
-import { useLocalStorage } from '../Hooks/useLocalStorage';
+import { useDispatch } from 'react-redux';
+import { login } from '../Redux/authSlice';
 
 const SignIn: React.FC = () => {
   const [user, setUser] = useState<ILoginDetails>({ email: '', password: '', role: userRole.client });
-  const { login } = useAuth();
+  const dispatch = useDispatch();
 
   let navigate = useNavigate();
-  const { setItem } = useLocalStorage();
-
   const handleLogin = () => {
-    login({
+    dispatch(login({
       password: user.password,
       email: user.email,
-      role :user.role,
+      role: user.role,
       authToken: "token",
-      isAuthenticated : true
-    });
+      isAuthenticated: true
+    }));
+
     navigate('/home');
   };
 
@@ -51,7 +49,7 @@ const SignIn: React.FC = () => {
           </FormControl>
           <FormControl id="password">
             <FormLabel>User role</FormLabel>
-            <Select value={user.role} onChange={(e) => setUser({...user,role:e.target.value})} placeholder='Select role'>
+            <Select value={user.role} onChange={(e) => setUser({ ...user, role: e.target.value })} placeholder='Select role'>
               <option value='Client'>Client</option>
               <option value='Interviwer'>Interviwer</option>
               <option value='Admin'>Admin</option>
