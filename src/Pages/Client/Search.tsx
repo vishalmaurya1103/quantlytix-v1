@@ -54,7 +54,7 @@ const Search: React.FC = () => {
   }
 
   return (
-    <Box p={4} position='absolute' top={20} left={20} right={20}>
+    <Box p={4}>
       <Stack spacing={4}>
         <InputGroup>
           <InputLeftElement pointerEvents='none'>
@@ -97,7 +97,7 @@ const Search: React.FC = () => {
                     </Td>
                     <Td>
                       <Link to={`/client/user/${item.userID}`}>
-                        <Text fontSize='lg'>{item.userDesignationn}</Text>
+                        <Text fontSize='lg'>{item.basicInfo}</Text>
                         <Text fontSize='xs'>
                           {item.companyName}, {item.time}
                         </Text>
@@ -107,7 +107,7 @@ const Search: React.FC = () => {
                       <Link to={`/client/user/${item.userID}`}>
                         <Text fontSize='lg'>{item.jobTime}</Text>
                         <Text fontSize='xs'>
-                          {item.city}, {item.country}
+                          {item.location}
                         </Text>
                       </Link>
                     </Td>

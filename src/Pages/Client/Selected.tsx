@@ -32,7 +32,7 @@ const Selected: React.FC = () => {
   }
 
   return (
-    <Box p={4} position='absolute' top={20} left={20} right={20}>
+    <Box p={4}>
       <Stack spacing={4}>
         <TableContainer>
           <Table variant='simple'>

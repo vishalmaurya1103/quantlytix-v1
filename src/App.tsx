@@ -7,7 +7,7 @@ import Selected from './Pages/Client/Selected'
 import Search from './Pages/Client/Search'
 import SignIn from './Pages/SingIn'
 import Footer from './Components/Footer'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import User from './Pages/Client/User'
 import InterviwerUser from './Pages/Interview/InterviwerUser'
 import InterviwerSearch from './Pages/Interview/InterviwerSearch'
@@ -17,17 +17,16 @@ import { isUserLogin } from './Utils/Utils'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import AddUsers from './Pages/Admin/AddUsers'
 
-const App = () => {  
+const App = () => {
   const [userData, setUserData] = useState<any>();
   const user = useSelector((state: any) => state.auth.user);
   console.log("user==", user);
 
   return (
     <BrowserRouter>
-    {/* <h6>Welcome</h6> */}
-      {user?.authToken && <Navbar />}
-      <Box display='flex' flexDirection='column' minHeight='91vh'>
-        <Box flex='1'>
+      <Flex direction="column" minH="100vh">
+        {user?.authToken && <Navbar />}
+        <Box as="main" minHeight={"40vh"} overflow={'auto'} padding={"20px"}>
           <Routes>
             <Route path='/login' element={<SignIn />} />
             <Route element={<PrivateRoutes />}>
@@ -44,7 +43,8 @@ const App = () => {
           </Routes>
         </Box>
         {user?.authToken && <Footer />}
-      </Box>
+      </Flex>
+
     </BrowserRouter>
   )
 }

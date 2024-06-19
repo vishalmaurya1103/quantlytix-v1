@@ -38,10 +38,10 @@ const NavLink = ({ children, href, isActive }: { children: ReactNode, href: stri
     _hover={{
       textDecoration: 'none',
       bg: "#808000",
-      color: '#000000',
+      color: "#edf2f7",
       zIndex: 1,
     }}
-    color={isActive ? '#000000' : '##808000#808000'}
+    color={isActive ? '#edf2f7' : '#808000'}
     bg={isActive ? '#808000' : 'transparent'}
     fontSize={'lg'}
     zIndex={isActive ? 2 : 0}
@@ -87,7 +87,7 @@ export default function WithAction() {
   }
 
   return (
-    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+    <Box as={"header"} bg={useColorModeValue('gray.900', 'gray.900')} px={4}>
         <Flex  h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}

@@ -26,7 +26,7 @@ const User: React.FC = () => {
     return <div>User not found</div>
   }
   return (
-    <Box p={4} position='absolute' top={20} left={20} right={20}>
+    <Box p={4}>
       <Flex alignItems='stretch' flexDirection='row'>
         <Box width='20%'>
           <Image
