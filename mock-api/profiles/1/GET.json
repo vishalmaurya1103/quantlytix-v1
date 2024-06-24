@@ -1,0 +1,38 @@
+{
+    "id": 1,
+    "firstName": "John2",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "location": "New York",
+    "profilePic": "https://bit.ly/dan-abramov",
+    "rating1": 4,
+    "rating2": 5,
+    "rating3": 3,
+    "rating4": 4,
+    "rating5": 5,
+    "basicDetails": {
+        "basicD1": "basic one",
+        "basicD2": "basic two",
+        "basicD3": "basic three",
+        "basicD4": "basic four"
+    },
+    "experienceDetails": {
+        "expD1": "experience details 1",
+        "expD2": "experience details 2",
+        "expD3": "experience details 3",
+        "expD4": "experience details 4"
+    },
+    "feedback": {
+        "shortFeedback": "This is Short Feedback",
+        "longFeedback": "This is Very Long Feedback"
+    },
+    "videoLink": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "resumeLink": "https://www.orimi.com/pdf-test.pdf",
+    "interviewBy": "Alice",
+    "interviewDateTime": "2023-06-01T14:30:00",
+    "managedBy": "Bob",
+    "status": "SELECTED",
+    "selectedBy": "ClientA",
+    "selectedDateTime": "2023-06-10T09:00:00"
+}

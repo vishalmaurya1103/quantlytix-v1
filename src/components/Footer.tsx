@@ -1,154 +1,150 @@
-'use client'
-
-import { ReactNode } from 'react'
+import React from 'react';
 import {
-  Box,
-  Container,
-  Stack,
-  SimpleGrid,
-  Text,
-  VisuallyHidden,
-  chakra,
-  useColorModeValue,
-  Image
-} from '@chakra-ui/react'
-import { FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa'
+  FaRegArrowAltCircleRight,
+  FaFacebookF,
+  FaLinkedin,
+  FaTwitter,
+  FaYoutube,
+} from 'react-icons/fa';
+import './Footer.css'
 import logo from '../Images/logo.png';
+// import {  Image} from 'react-bootstrap';
 
-// import { AppStoreBadge } from '#/components/AppStoreBadge'
-// import { PlayStoreBadge } from '#/components/PlayStoreBadge'
+const Footer = () => {
+  const companyLinks = [
+    { label: 'About Us', icon: FaRegArrowAltCircleRight, Link: 'about' },
+    { label: 'Contact Us', icon: FaRegArrowAltCircleRight, Link: 'contact' },
+    { label: 'Reservation', icon: FaRegArrowAltCircleRight, Link: 'contact' },
+    { label: 'Privacy Policy', icon: FaRegArrowAltCircleRight, Link: '' },
+    { label: 'Terms & Condition', icon: FaRegArrowAltCircleRight, Link: '' },
+  ];
 
-const ListHeader = ({ children }: { children: ReactNode }) => {
+  const contactInfo = [
+    { icon: 'fa-map-marker-alt', text: '123 Street, New York, USA' },
+    { icon: 'fa-phone-alt', text: '+012 345 67890' },
+    { icon: 'fa-envelope', text: 'info@example.com' },
+  ];
+
+  const socialLinks = [
+    { icon: FaTwitter, scale: 1.3 },
+    { icon: FaFacebookF, scale: 1.3 },
+    { icon: FaYoutube, size: 40, scale: 1.3 },
+    { icon: FaLinkedin, scale: 1.3 },
+  ];
+
+  const openingHours = [
+    { day: 'Monday - Saturday', time: '09AM - 09PM' },
+    { day: 'Sunday', time: '10AM - 08PM' },
+  ];
+
   return (
-    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
-      {children}
-    </Text>
-  )
-}
+      <div
+        className="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
+        <div className="container py-5">
+          <div className="row g-5">
+            <div className="col-lg-3 col-md-6">
+              <h4 className="section-title ff-secondary text-start text-primary fw-normal mb-4">
+              <img src={logo} width={'150px'} />
+              </h4>
+              {companyLinks.map((link, index) => (
+                <a
+                  key={index}
+                  className="btn btn-link d-flex align-items-center"
+                  href={link.Link}
+                >
+                  {React.createElement(link.icon, { className: 'me-2' })}
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <h4 className="section-title ff-secondary text-start text-primary fw-normal mb-4">
+                Contact
+              </h4>
+              {contactInfo.map((info, index) => (
+                <p key={index} className="mb-2">
+                  <i className={`fa ${info.icon} me-3`} />
+                  {info.text}
+                </p>
+              ))}
+              <div className="d-flex pt-2">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    className="btn btn-outline-light btn-social"
+                    href=""
+                  >
+                    {React.createElement(social.icon, {
+                      className: 'display-1',
+                      style: { scale: social.scale },
+                    })}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <h4 className="section-title ff-secondary text-start text-primary fw-normal mb-4">
+                Opening
+              </h4>
+              {openingHours.map((hours, index) => (
+                <React.Fragment key={index}>
+                  <h5 className="text-light fw-normal">{hours.day}</h5>
+                  <p>{hours.time}</p>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <h4 className="section-title ff-secondary text-start text-primary fw-normal mb-4">
+                Newsletter
+              </h4>
+              <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+              <div
+                className="position-relative mx-auto"
+                style={{ maxWidth: 400 }}
+              >
+                <input
+                  className="form-control border-primary w-100 py-3 ps-4 pe-5"
+                  type="text"
+                  placeholder="Your email"
+                />
+                <button
+                  type="button"
+                  className="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+                >
+                  SignUp
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-const SocialButton = ({
-  children,
-  label,
-  href,
-}: {
-  children: ReactNode
-  label: string
-  href: string
-}) => {
-  return (
-    <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-      rounded={'full'}
-      w={8}
-      h={8}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-      _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-      }}>
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
-  )
-}
+        <div className="container">
+          <div className="copyright">
+            <div className="row">
+              <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                ©{' '}
+                <a className="border-bottom" href="#">
+                  Your Site Name
+                </a>
+                , All Right Reserved.
+                <br />
+                <br />
+              </div>
+              <div className="col-md-6 text-center text-md-end">
+                <div className="footer-menu">
+                  <a href="">Home</a>
+                  <a href="">Cookies</a>
+                  <a href="">Help</a>
+                  <a href="">FQAs</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  );
+};
 
-export default function Footer() {
-  return (
-    <Box
-    as="footer"
-      bg={useColorModeValue('gray.900', 'gray.900')}
-      color={"white"}>
-      <Container as={Stack} maxW={'6xl'} py={10} >
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
-            <ListHeader>              <Image width={'150px'} src={logo} />
-            </ListHeader>
-            <Box as="a" href={'#'}>
-              About Us
-            </Box>
-            <Box as="a" href={'#'}>
-              Blog
-            </Box>
-            <Box as="a" href={'#'}>
-              Careers
-            </Box>
-            <Box as="a" href={'#'}>
-              Contact Us
-            </Box>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
-            <Box as="a" href={'#'}>
-              About Us
-            </Box>
-            <Box as="a" href={'#'}>
-              Blog
-            </Box>
-            <Box as="a" href={'#'}>
-              Careers
-            </Box>
-            <Box as="a" href={'#'}>
-              Contact Us
-            </Box>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
-            <Box as="a" href={'#'}>
-              Cookies Policy
-            </Box>
-            <Box as="a" href={'#'}>
-              Privacy Policy
-            </Box>
-            <Box as="a" href={'#'}>
-              Terms of Service
-            </Box>
-            <Box as="a" href={'#'}>
-              Law Enforcement
-            </Box>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader> Social links</ListHeader>
-            <Stack direction={'row'} spacing={6}>
-              <SocialButton label={'Twitter'} href={'#'}>
-                <FaTwitter />
-              </SocialButton>
-              <SocialButton label={'YouTube'} href={'#'}>
-                <FaYoutube />
-              </SocialButton>
-              <SocialButton label={'Instagram'} href={'#'}>
-                <FaInstagram />
-              </SocialButton>
-            </Stack>
-          </Stack>
-        </SimpleGrid>
-      </Container>
-
-      <Box
-        borderTopWidth={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.700')}>
-        <Container
-          as={Stack}
-          maxW={'6xl'}
-          py={4}
-          direction={{ base: 'column', md: 'row' }}
-          spacing={4}
-          justify={{ md: 'space-between' }}
-          align={{ md: 'center' }}>
-          <Text>© 2024 Quantlytix. All rights reserved</Text>
-          <Stack direction={'row'} spacing={6}>
-            <Text>Terms and conditions | Privacy policy</Text>
-          </Stack>
-        </Container>
-      </Box>
-    </Box>
-  )
-}
+export default Footer;

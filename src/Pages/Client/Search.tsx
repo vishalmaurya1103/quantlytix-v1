@@ -1,150 +1,107 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Stack,
-  Text,
-  Table,
-  Tbody,
-  Tr,
-  Td,
-  TableContainer,
-  Avatar,
-  Flex,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Icon,
-  Select,
-} from '@chakra-ui/react'
-import { StarIcon } from '@chakra-ui/icons'
 import { users } from '../../data/users'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaSearch } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchClients } from '../../Redux/clientSlice'
 import { AppDispatch, RootState } from '../../App/Store'
-
-const CircleIcon = ({ boxSize, color }) => {
-  return <Box width={boxSize} height={boxSize} borderRadius='full' backgroundColor={color} />
-}
+import { fetchSearchProfile } from '../../Redux/profileSlice'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { Tag } from 'primereact/tag'
 
 const Search: React.FC = () => {
- // const [client, setClient] = useState(users)
   const dispatch = useDispatch<AppDispatch>();
-
-  const clients = useSelector((state: RootState) => state.client.clients);
-  const status = useSelector((state: RootState) => state.client.status);
-  const error = useSelector((state: RootState) => state.client.error);
+  const searchProfiles = useSelector((state: RootState) => state.profile.searchProfiles);
+  const status = useSelector((state: RootState) => state.user.status);
+  const error = useSelector((state: RootState) => state.user.error);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchClients());
+      dispatch(fetchSearchProfile());
     }
   }, [status, dispatch]);
 
-  const handleStarClick = (id, event) => {
-    event.stopPropagation();
-    const updatedClient = clients.map((user) => {
-      if (user.userID === id) {
-        return { ...user, isBookmark: !user.isBookmark }
-      }
-      return user
-    })
-    //setClient(updatedClient)
-  }
+  const profileBodyTemplate = (rowData) => {
+    return (
+      <div className="align-items-center">
+        <img src={rowData.profilePic} width="40" style={{ borderRadius: "20px" }} />
+      </div>
+    );
+  };
+
+  const nameBodyTemplate = (rowData) => {
+    return (
+      <div className="align-items-center">
+        <p style={{ margin: "0px" }}><span>{rowData.firstName}  {rowData.lastName}</span>
+        </p>
+        <p style={{ margin: "0px" }}><i>{rowData.email} </i></p>
+      </div>
+    );
+  };
+
+  const locationBodyTemplate = (rowData) => {
+    return (
+      <div className="align-items-center">
+        <p style={{ margin: "0px" }}><span>Part Time</span>
+        </p>
+        <p style={{ margin: "0px" }}> {`in ${rowData.location}`} </p>
+      </div>
+    );
+  };
+
+  const phoneBodyTemplate = (rowData) => {
+
+    return (
+      <div className="flex align-items-center gap-2">
+        <i className={" pi pi-phone"} ></i>
+        <i  >{rowData.phone}</i>
+      </div>
+    )
+  };
+
+
+  const getSeverity = (status) => {
+    switch (status) {
+      case 'unqualified':
+        return 'danger';
+
+      case 'status':
+        return 'success';
+
+      case 'new':
+        return 'info';
+
+      case 'negotiation':
+        return 'warning';
+
+      case 'renewal':
+        return null;
+    }
+  };
+
+  const statusBodyTemplate = (rowData) => {
+    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+  };
+
+  const onRowSelect = (event) => {
+    navigate(`/client/search/${event.data.id}`);
+  };
 
   return (
-    <Box p={4}>
-      <Stack spacing={4}>
-        <InputGroup>
-          <InputLeftElement pointerEvents='none'>
-            <Icon as={FaSearch} color='gray.300' />
-          </InputLeftElement>
-          <Input type='text' placeholder='Profile Name' />
-        </InputGroup>
-        <Flex>
-          <Select placeholder='Location' ml='4'>
-            <option value='option1'>US</option>
-            <option value='option2'>UK</option>
-            <option value='option3'>India</option>
-          </Select>
-          <Select placeholder='Experience' ml='4'>
-            <option value='option1'>1 Year</option>
-            <option value='option2'>2 Year</option>
-            <option value='option3'>3 Year</option>
-          </Select>
-          <Select placeholder='Role' ml='4'>
-            <option value='option1'>Software Engineer</option>
-            <option value='option2'>Marketing</option>
-            <option value='option3'>UI/UX</option>
-          </Select>
-          <Select placeholder='Category' ml='4'>
-            <option value='option1'>IT</option>
-            <option value='option2'>Markating</option>
-            <option value='option3'>Bank</option>
-          </Select>
-        </Flex>
-        <TableContainer>
-          <Table variant='simple'>
-            <Tbody>
-              {clients.length &&
-                clients.map((item) => (
-                  <Tr key={item.userID}>
-                    <Td>
-                      <Link to={`/client/user/${item.userID}`}>
-                        <Avatar size='md' name='Company Logo' src={item.userImgUrl} />
-                      </Link>
-                    </Td>
-                    <Td>
-                      <Link to={`/client/user/${item.userID}`}>
-                        <Text fontSize='lg'>{item.basicInfo}</Text>
-                        <Text fontSize='xs'>
-                          {item.companyName}, {item.time}
-                        </Text>
-                      </Link>
-                    </Td>
-                    <Td>
-                      <Link to={`/client/user/${item.userID}`}>
-                        <Text fontSize='lg'>{item.jobTime}</Text>
-                        <Text fontSize='xs'>
-                          {item.location}
-                        </Text>
-                      </Link>
-                    </Td>
-                    <Td>
-                      <Link to={`/client/user/${item.userID}`}>
-                        <Text fontSize='lg'>${item.workRate}/hr</Text>
-                      </Link>
-                    </Td>
-                    <Td>
-                      <Link to={`/client/user/${item.userID}`}>
-                        <Flex align='center'>
-                          <CircleIcon boxSize={4} color='red.500' />
-                          <Box backgroundColor='red.500' borderRadius='full' p={1} ml={2}>
-                            <Text fontSize='md' color='white'>
-                              {item.department}
-                            </Text>
-                          </Box>
-                        </Flex>
-                      </Link>
-                    </Td>
-                    <Td>
-                      <StarIcon
-                        cursor='pointer'
-                        color={item.isBookmark ? 'orange.500' : 'gray.300'}
-                        fill={item.isBookmark ? 'orange.500' : 'transparent'}
-                        stroke={item.isBookmark ? 'orange.500' : 'gray.300'}
-                        onClick={(event) => handleStarClick(item.userID, event)}
-                        _hover={{ stroke: 'orange.500', strokeWidth: '2px' }}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Stack>
-    </Box>
+    <>
+      <>
+        <div className="card">
+          <DataTable onRowSelect={onRowSelect}selectionMode="single" paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} value={searchProfiles} tableStyle={{ minWidth: '50rem' }}>
+            <Column filter field="profilePic" body={profileBodyTemplate} header="Profile"></Column>
+            <Column filter field="firstName" body={nameBodyTemplate} header="Name"></Column>
+            <Column filter field="location" body={locationBodyTemplate} header="Location"></Column>
+            <Column filter field="phone" body={phoneBodyTemplate} header="Phone"></Column>
+          </DataTable>
+        </div>
+      </>
+    </>
   )
 }
 

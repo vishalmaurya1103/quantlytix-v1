@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -49,6 +50,13 @@ html, body, #root {
   min-height: 100vh;
 }
 
+
 .App .content {
   flex: 1;
+}
+
+thead, tbody, tfoot, tr, td, th {
+  border-style: groove !important;
+  border-width: 1px !important;
+  border-color: rgb(229 231 235) !important;
 }
